@@ -1,0 +1,48 @@
+---
+title: "Final Project Point Pattern Analysis"
+author: "Josie Welsh"
+date: "2024-04-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Introduction 
+
+Physical modelling (flume experiments) is a commonly used tool for fluvial geomorphologists to investigate real world processes. Flume experiments provide a controlled environment to investigate the relationship between environmental variables and river processes. For my Masters project, I am using flume experiments to investigate how system characteristics such as floodplain forest stand density, floodplain and channel morphology, and flood magnitude influence the distribution of large wood (dead, downed wood greater than 1m in length and 0.1m in diameter) across the channel and floodplain. 
+
+For each experiment that I have run, a steady-state flow is pushed through the flume and scaled wood pieces are dropped into the flow. These wood pieces travel downstream and interact with vertical dowels placed on the floodplain that represent floodplain trees. Some of the wood pieces become lodged behind trees and remain in the flume while others can make their way all the way through the flume. Large accumulations of wood pieces can form when pieces get trapped by other trapped pieces. Because of the stochastic nature of wood deposition, multiple trials of the same reference scenario (with the same experimental setup) were run during January of 2022 to investigate the reproducibility of results in our flume experiments. 
+
+Previous experiments involving LW have used visual assessments of piece distribution are also commonly reported (Braudrick and Grant, 2001; Bertoldi et al., 2015). There is at least one example of using K-statistics to assess the distribution of LW pieces deposited during flume experiments (Bocchiola et al., 2008). For this class project, intend to quantify the similarity between the 4 experimental trials that I ran over winter break. In addition, I intend to find the relationship between LW deposited on the floodplain and floodplain trees. 
+
+
+## Questions and Hypotheses
+
+**Question 1:** Are the distributions of LW pieces similar between repeat trials of the same experimental setup?
+
+*Hypothesis:* I expect that for all four experiments, the distribution of wood pieces will be clustered and thus we will see k-curves above that of a k-curve for complete spatial randomness, and KDE maps will have a few areas with high densities but most of the map will have quite a low density. 
+
+
+**Question 2:** Does the distribution of LW match the distribution of model trees within the flume?
+
+*Hypothesis:* I expect that the distributions will not be similar, as trees are evenly distributed across the floodplain whereas LW pieces are generally clustered. 
+
+
+
+## Methods
+
+**Question 1**
+I propose two methods for looking at similarities between LW distributions. First, I will create and compare k-curves for each of the experiments. Second, I will create and compare kernel density estimation (KDE) maps for each of the experiments.
+
+**Question 2**
+To quantify the similarity between LW distribution and floodplain tree distribution I will build cross type k-curves that look at the relationship between wood pieces and trees.
+
+
+
+## References
+Bertoldi, W., Welber, M., Gurnell, A.M., Mao, L., Comiti, F., and Tal, M., 2015, Physical modelling of the combined effect of vegetation and wood on river morphology: Geomorphology, v. 246, p. 178–187, doi:10.1016/j.geomorph.2015.05.038.
+Bocchiola, D., Rulli, M.C., and Rosso, R., 2008, A flume experiment on the formation of wood jams in rivers: Water Resources Research, v. 44, doi:10.1029/2006WR005846.
+Braudrick, C.A., and Grant, G.E., 2001, Transport and deposition of large woody debris in streams: a flume experiment: Geomorphology, v. 41, p. 263–283, doi:10.1016/S0169-555X(01)00058-7.
