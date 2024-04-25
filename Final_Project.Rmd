@@ -52,9 +52,6 @@ Braudrick, C.A., and Grant, G.E., 2001, Transport and deposition of large woody 
 ```{r}
 library(sf)
 library(ggplot2)
-
-
-
 ```
 
 
@@ -63,16 +60,74 @@ library(ggplot2)
 
 flume_geom <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/flume regions.shp")
 
+flume_geom <- st_transform(flume_geom, 32615)
+
+
 trial1 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01082024_points.shp")
+
+trial1 <- st_transform(trial1, 32615)
 
 trial2 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01092024_points.shp")
 
+trial2 <- st_transform(trial2, 32615)
+
+
 trial3 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01102024_points.shp")
 
+trial3 <- st_transform(trial3, 32615)
+
 trial4 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01122024_points.shp")
+
+trial4 <- st_transform(trial4, 32615)
 ```
 
 
 ##Initial Plotting of Data
+```{r}
+trial1_plot <- ggplot() +
+  geom_sf(data = flume_geom) +
+  geom_sf(data = trial1, color = "blue") +
+  ggtitle("Trial 1")
+
+trial1_plot
+
+trial2_plot <- ggplot() +
+  geom_sf(data = flume_geom) +
+  geom_sf(data = trial2, color = "green") +
+  ggtitle("Trial 2")
+
+trial2_plot
+
+trial3_plot <- ggplot() +
+  geom_sf(data = flume_geom) +
+  geom_sf(data = trial3, color = "red") +
+  ggtitle("Trial 3")
+
+trial3_plot
+
+trial4_plot <- ggplot() +
+  geom_sf(data = flume_geom) +
+  geom_sf(data = trial4, color = "yellow") +
+  ggtitle("Trial 4")
+
+trial4_plot
+
+all_trials_plot <- ggplot() + 
+  geom_sf(data = flume_geom) +
+  geom_sf(data = trial1, color = "blue") +
+  geom_sf(data = trial2, color = "green") +
+  geom_sf(data = trial3, color = "red") +
+  geom_sf(data = trial4, color = "yellow") +
+  ggtitle("All Trials")
+
+all_trials_plot
+  
+
+```
+
+
+
+
+
 
 
