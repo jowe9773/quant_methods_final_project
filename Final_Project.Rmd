@@ -43,6 +43,36 @@ To quantify the similarity between LW distribution and floodplain tree distribut
 
 
 ## References
+
 Bertoldi, W., Welber, M., Gurnell, A.M., Mao, L., Comiti, F., and Tal, M., 2015, Physical modelling of the combined effect of vegetation and wood on river morphology: Geomorphology, v. 246, p. 178–187, doi:10.1016/j.geomorph.2015.05.038.
 Bocchiola, D., Rulli, M.C., and Rosso, R., 2008, A flume experiment on the formation of wood jams in rivers: Water Resources Research, v. 44, doi:10.1029/2006WR005846.
 Braudrick, C.A., and Grant, G.E., 2001, Transport and deposition of large woody debris in streams: a flume experiment: Geomorphology, v. 41, p. 263–283, doi:10.1016/S0169-555X(01)00058-7.
+
+##Load Packages
+```{r}
+library(sf)
+library(ggplot2)
+
+
+
+```
+
+
+##Loading Data
+```{r}
+
+flume_geom <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/flume regions.shp")
+
+trial1 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01082024_points.shp")
+
+trial2 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01092024_points.shp")
+
+trial3 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01102024_points.shp")
+
+trial4 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01122024_points.shp")
+```
+
+
+##Initial Plotting of Data
+
+
