@@ -423,6 +423,58 @@ Rulli, M.C., and Rosso, R., 2008, A flume experiment on the formation of
 wood jams in rivers: Water Resources Research, v. 44, <a href="doi:10.1029/2006WR005846" class="uri">doi:10.1029/2006WR005846</a>. Braudrick, C.A., and Grant,
 G.E., 2001, Transport and deposition of large woody debris in streams: a
 flume experiment: Geomorphology, v. 41, p. 263–283, <a href="doi:10.1016/S0169-555X(01)00058-7" class="uri">doi:10.1016/S0169-555X(01)00058-7</a>.</p>
+<p>##Load Packages</p>
+<pre class="r"><code>library(sf)</code></pre>
+<pre><code>## Warning: package &#39;sf&#39; was built under R version 4.3.2</code></pre>
+<pre><code>## Linking to GEOS 3.11.2, GDAL 3.7.2, PROJ 9.3.0; sf_use_s2() is TRUE</code></pre>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<p>##Loading Data</p>
+<pre class="r"><code>flume_geom &lt;- st_read(&quot;C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/flume regions.shp&quot;)</code></pre>
+<pre><code>## Reading layer `flume regions&#39; from data source 
+##   `C:\Users\josie\OneDrive - UCB-O365\Classes\Spring 2024\GEOG 5023 - Quant Methods\Final Project\Images\Shapefiles\flume regions.shp&#39; 
+##   using driver `ESRI Shapefile&#39;
+## Simple feature collection with 3 features and 1 field
+## Geometry type: POLYGON
+## Dimension:     XY
+## Bounding box:  xmin: -0.01093674 ymin: -1999.243 xmax: 9751.741 ymax: 2000.048
+## Projected CRS: WGS 84 / UTM zone 15N</code></pre>
+<pre class="r"><code>trial1 &lt;- st_read(&quot;C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01082024_points.shp&quot;)</code></pre>
+<pre><code>## Reading layer `01082024_points&#39; from data source 
+##   `C:\Users\josie\OneDrive - UCB-O365\Classes\Spring 2024\GEOG 5023 - Quant Methods\Final Project\Images\Shapefiles\01082024_points.shp&#39; 
+##   using driver `ESRI Shapefile&#39;
+## Simple feature collection with 360 features and 1 field
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 574.48 ymin: -925.3894 xmax: 9669.339 ymax: 591.9694
+## Projected CRS: WGS 84 / UTM zone 15N</code></pre>
+<pre class="r"><code>trial2 &lt;- st_read(&quot;C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01092024_points.shp&quot;)</code></pre>
+<pre><code>## Reading layer `01092024_points&#39; from data source 
+##   `C:\Users\josie\OneDrive - UCB-O365\Classes\Spring 2024\GEOG 5023 - Quant Methods\Final Project\Images\Shapefiles\01092024_points.shp&#39; 
+##   using driver `ESRI Shapefile&#39;
+## Simple feature collection with 391 features and 1 field
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 498.5145 ymin: -1014.936 xmax: 8876.433 ymax: 422.4207
+## Projected CRS: WGS 84 / UTM zone 15N</code></pre>
+<pre class="r"><code>trial3 &lt;- st_read(&quot;C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01102024_points.shp&quot;)</code></pre>
+<pre><code>## Reading layer `01102024_points&#39; from data source 
+##   `C:\Users\josie\OneDrive - UCB-O365\Classes\Spring 2024\GEOG 5023 - Quant Methods\Final Project\Images\Shapefiles\01102024_points.shp&#39; 
+##   using driver `ESRI Shapefile&#39;
+## Simple feature collection with 315 features and 1 field
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 837.7356 ymin: -789.0069 xmax: 9750.339 ymax: 957.9894
+## Projected CRS: WGS 84 / UTM zone 15N</code></pre>
+<pre class="r"><code>trial4 &lt;- st_read(&quot;C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01122024_points.shp&quot;)</code></pre>
+<pre><code>## Reading layer `01122024_points&#39; from data source 
+##   `C:\Users\josie\OneDrive - UCB-O365\Classes\Spring 2024\GEOG 5023 - Quant Methods\Final Project\Images\Shapefiles\01122024_points.shp&#39; 
+##   using driver `ESRI Shapefile&#39;
+## Simple feature collection with 306 features and 1 field
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 17.24733 ymin: -1041.07 xmax: 9354.699 ymax: 543.1585
+## Projected CRS: WGS 84 / UTM zone 15N</code></pre>
+<p>##Initial Plotting of Data</p>
 </div>
 
 

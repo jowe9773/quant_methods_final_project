@@ -43,6 +43,113 @@ To quantify the similarity between LW distribution and floodplain tree distribut
 
 
 ## References
+
 Bertoldi, W., Welber, M., Gurnell, A.M., Mao, L., Comiti, F., and Tal, M., 2015, Physical modelling of the combined effect of vegetation and wood on river morphology: Geomorphology, v. 246, p. 178–187, doi:10.1016/j.geomorph.2015.05.038.
 Bocchiola, D., Rulli, M.C., and Rosso, R., 2008, A flume experiment on the formation of wood jams in rivers: Water Resources Research, v. 44, doi:10.1029/2006WR005846.
 Braudrick, C.A., and Grant, G.E., 2001, Transport and deposition of large woody debris in streams: a flume experiment: Geomorphology, v. 41, p. 263–283, doi:10.1016/S0169-555X(01)00058-7.
+
+##Load Packages
+```{r}
+library(sf)
+library(ggplot2)
+library(spatstat)
+```
+
+
+##Loading Data
+```{r}
+#load data and reproject to UTM
+
+flume_geom <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/flume regions.shp")
+flume_geom <- st_transform(flume_geom, 32615)
+
+all_points <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/all_points.shp")
+all_points <- st_transform(all_points, 32615)
+
+#subset data into different trials
+trial1 = all_points[all_points$layer=="01082024_points",]
+trial2 = all_points[all_points$layer=="01092024_points",]
+trial3 = all_points[all_points$layer=="01102024_points",]
+trial4 = all_points[all_points$layer=="01122024_points",]
+
+```
+
+
+##Initial Plotting of Data
+```{r}
+
+all_points_plot <- ggplot() + 
+  geom_sf(data = flume_geom) +
+  geom_sf(data = all_points, aes(color = layer))
+
+all_points_plot
+
+```
+
+##Prepare Data for point pattern analysis
+
+```{r}
+#create an extent for each ppp
+x_range <- c(0, 9750)  # Define the x-range
+y_range <- c(-2000, 2000)  # Define the y-range
+extent <- owin(xrange = x_range, yrange = y_range)  # Create the spatial window
+
+#make a ppp object for each trial that spatstat will use
+ppp_1 <- as.ppp(trial1, W = extent)
+ppp_2 <- as.ppp(trial2, W = extent)
+ppp_3 <- as.ppp(trial3, W = extent)
+ppp_4 <- as.ppp(trial4, W = extent)
+ppp_all <- as.ppp(all_trials, W = extent)
+```
+
+
+##Kernel Density Estimation
+```{r}
+sigma = 200
+
+KDE1 = density(ppp_1, kernel="gaussian", sigma= sigma)
+KDE2 = density(ppp_2, kernel="gaussian", sigma= sigma)
+KDE3 = density(ppp_3, kernel="gaussian", sigma= sigma)
+KDE4 = density(ppp_4, kernel="gaussian", sigma= sigma)
+KDE_all = density(ppp_all, kernel="gaussian", sigma= sigma)
+
+plot(KDE1)
+plot(KDE2)
+plot(KDE3)
+plot(KDE4)
+plot(KDE_all)
+
+```
+
+##K-Curves
+```{r}
+
+
+plot(envelope(ppp_1, Kest, nsim = 50, rank=1, silent=T))
+plot(envelope(ppp_2, Kest, nsim = 50, rank=1, silent=T))
+plot(envelope(ppp_3, Kest, nsim = 50, rank=1, silent=T))
+plot(envelope(ppp_4, Kest, nsim = 50, rank=1, silent=T))
+
+
+
+
+```
+
+##Models
+Here, I will investigate the relationship between distance downstream and distance from the channel center.
+
+```{r}
+
+#poisson process model
+
+
+
+
+```
+
+
+
+
+
+
+
