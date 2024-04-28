@@ -52,76 +52,98 @@ Braudrick, C.A., and Grant, G.E., 2001, Transport and deposition of large woody 
 ```{r}
 library(sf)
 library(ggplot2)
+library(spatstat)
 ```
 
 
 ##Loading Data
 ```{r}
+#load data and reproject to UTM
 
 flume_geom <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/flume regions.shp")
-
 flume_geom <- st_transform(flume_geom, 32615)
 
+all_points <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/all_points.shp")
+all_points <- st_transform(all_points, 32615)
 
-trial1 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01082024_points.shp")
+#subset data into different trials
+trial1 = all_points[all_points$layer=="01082024_points",]
+trial2 = all_points[all_points$layer=="01092024_points",]
+trial3 = all_points[all_points$layer=="01102024_points",]
+trial4 = all_points[all_points$layer=="01122024_points",]
 
-trial1 <- st_transform(trial1, 32615)
-
-trial2 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01092024_points.shp")
-
-trial2 <- st_transform(trial2, 32615)
-
-
-trial3 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01102024_points.shp")
-
-trial3 <- st_transform(trial3, 32615)
-
-trial4 <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/01122024_points.shp")
-
-trial4 <- st_transform(trial4, 32615)
 ```
 
 
 ##Initial Plotting of Data
 ```{r}
-trial1_plot <- ggplot() +
+
+all_points_plot <- ggplot() + 
   geom_sf(data = flume_geom) +
-  geom_sf(data = trial1, color = "blue") +
-  ggtitle("Trial 1")
+  geom_sf(data = all_points, aes(color = layer))
 
-trial1_plot
+all_points_plot
 
-trial2_plot <- ggplot() +
-  geom_sf(data = flume_geom) +
-  geom_sf(data = trial2, color = "green") +
-  ggtitle("Trial 2")
+```
 
-trial2_plot
+##Prepare Data for point pattern analysis
 
-trial3_plot <- ggplot() +
-  geom_sf(data = flume_geom) +
-  geom_sf(data = trial3, color = "red") +
-  ggtitle("Trial 3")
+```{r}
+#create an extent for each ppp
+x_range <- c(0, 9750)  # Define the x-range
+y_range <- c(-2000, 2000)  # Define the y-range
+extent <- owin(xrange = x_range, yrange = y_range)  # Create the spatial window
 
-trial3_plot
+#make a ppp object for each trial that spatstat will use
+ppp_1 <- as.ppp(trial1, W = extent)
+ppp_2 <- as.ppp(trial2, W = extent)
+ppp_3 <- as.ppp(trial3, W = extent)
+ppp_4 <- as.ppp(trial4, W = extent)
+ppp_all <- as.ppp(all_trials, W = extent)
+```
 
-trial4_plot <- ggplot() +
-  geom_sf(data = flume_geom) +
-  geom_sf(data = trial4, color = "yellow") +
-  ggtitle("Trial 4")
 
-trial4_plot
+##Kernel Density Estimation
+```{r}
+sigma = 200
 
-all_trials_plot <- ggplot() + 
-  geom_sf(data = flume_geom) +
-  geom_sf(data = trial1, color = "blue") +
-  geom_sf(data = trial2, color = "green") +
-  geom_sf(data = trial3, color = "red") +
-  geom_sf(data = trial4, color = "yellow") +
-  ggtitle("All Trials")
+KDE1 = density(ppp_1, kernel="gaussian", sigma= sigma)
+KDE2 = density(ppp_2, kernel="gaussian", sigma= sigma)
+KDE3 = density(ppp_3, kernel="gaussian", sigma= sigma)
+KDE4 = density(ppp_4, kernel="gaussian", sigma= sigma)
+KDE_all = density(ppp_all, kernel="gaussian", sigma= sigma)
 
-all_trials_plot
-  
+plot(KDE1)
+plot(KDE2)
+plot(KDE3)
+plot(KDE4)
+plot(KDE_all)
+
+```
+
+##K-Curves
+```{r}
+
+
+plot(envelope(ppp_1, Kest, nsim = 50, rank=1, silent=T))
+plot(envelope(ppp_2, Kest, nsim = 50, rank=1, silent=T))
+plot(envelope(ppp_3, Kest, nsim = 50, rank=1, silent=T))
+plot(envelope(ppp_4, Kest, nsim = 50, rank=1, silent=T))
+
+
+
+
+```
+
+##Models
+Here, I will investigate the relationship between distance downstream and distance from the channel center.
+
+```{r}
+
+#poisson process model
+
+
+
 
 ```
 
