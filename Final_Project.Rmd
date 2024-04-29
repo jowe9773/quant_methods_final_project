@@ -99,7 +99,7 @@ ppp_1 <- as.ppp(trial1, W = extent)
 ppp_2 <- as.ppp(trial2, W = extent)
 ppp_3 <- as.ppp(trial3, W = extent)
 ppp_4 <- as.ppp(trial4, W = extent)
-ppp_all <- as.ppp(all_trials, W = extent)
+ppp_all <- as.ppp(all_points, W = extent)
 ```
 
 
@@ -124,30 +124,99 @@ plot(KDE_all)
 ##K-Curves
 ```{r}
 
-
 plot(envelope(ppp_1, Kest, nsim = 50, rank=1, silent=T))
 plot(envelope(ppp_2, Kest, nsim = 50, rank=1, silent=T))
 plot(envelope(ppp_3, Kest, nsim = 50, rank=1, silent=T))
 plot(envelope(ppp_4, Kest, nsim = 50, rank=1, silent=T))
 
 
-
-
 ```
 
 ##Models
-Here, I will investigate the relationship between distance downstream and distance from the channel center.
+Here, I will build a logistic regression based on flume region (categorical), distance downstream, and distance from channel center. 
 
 ```{r}
 
-#poisson process model
+library(dplyr)  # For data manipulation
+library(tidyr)  # For data manipulation
+library(ggplot2)  # For visualization
+library(raster)
+library(car)  # For VIF calculation (optional)
 
 
+#load randomly sampled points and multiband raster with predictor info
+
+all_rand_points <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/all_rand_points.shp")
+all_rand_points <- st_transform(all_rand_points, 32615)
+
+actually_all_points <- st_read("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/Images/Shapefiles/actually_all_points.shp")
+actually_all_points <- st_transform(all_rand_points, 32615)
+
+#load rasters of predictor variables
+d_down = raster("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/d_down.tiff")
+distance = raster("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/distance.tif")
+dummy_region = raster("C:/Users/josie/OneDrive - UCB-O365/Classes/Spring 2024/GEOG 5023 - Quant Methods/Final Project/dummy_region.tif")
+
+extent(d_down)
+extent(distance)
+extent(dummy_region)
+
+predictor_stack <- stack(d_down, distance, dummy_region)
+
+names(predictor_stack) <- c("d_down", "distance", "dummy_region")
+
+class(predictor_stack)
+plot(predictor_stack)
 
 
 ```
 
+```{r}
 
+#model for only wood points
+# Create dummy variables for categorical variables
+all_rand_points <- all_rand_points %>%
+  mutate_if(is.factor, as.character) %>%
+  mutate(region = factor(region)) %>%
+  mutate(dummy_region = as.numeric(region)) %>%
+  mutate(num_wood = if_else(wood == 'y', 1, 0))
+
+
+# Fit logistic regression model
+rand_model <- glm(num_wood ~ distance + d_down + dummy_region, data = all_rand_points, family = binomial(link = "logit"))
+
+# Summary of the model
+summary(rand_model)
+
+
+#Model for only random points
+# Create dummy variables for categorical variables
+actually_all_points <- actually_all_points %>%
+  mutate_if(is.factor, as.character) %>%
+  mutate(region = factor(region)) %>%
+  mutate(dummy_region = as.numeric(region)) %>%
+  mutate(num_wood = if_else(wood == 'y', 1, 0))
+
+
+# Fit logistic regression model
+all_model <- glm(num_wood ~ distance + d_down + dummy_region, data = actually_all_points, family = binomial(link = "logit"))
+
+# Summary of the model
+summary(all_model)
+```
+
+
+```{r} 
+#now lets use our model to predict wood deposition
+rand_predict <- predict(predictor_stack, rand_model, type = 'response')
+plot(rand_predict)
+
+all_predict <- predict(predictor_stack, all_model, type = 'response')
+
+plot(all_predict)
+
+
+```
 
 
 
